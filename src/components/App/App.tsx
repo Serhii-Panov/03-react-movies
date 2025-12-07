@@ -5,10 +5,11 @@ import MovieGrid from "../MovieGrid/MovieGrid";
 import { Toaster } from "react-hot-toast";
 import toast from "react-hot-toast";
 import Loader from "../Loader/Loader";
-
+import ErrorMessage from "../ErrorMessage/ErrorMessage";
 function App() {
   const [movies, setMovies] = useState([]);
   const [isloading, setIsLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
 
   const handleSearch = (query: string) => {
     const params = {
@@ -30,7 +31,7 @@ function App() {
       .catch((err) => {
         setIsLoading(false);
         console.log(err);
-        toast.error("There was an error, please try again...");
+        setIsError(true);
       });
   };
 
@@ -39,6 +40,7 @@ function App() {
       <Toaster />
       <SearchBar onSubmit={handleSearch} />
       {isloading && <Loader />}
+      {isError && <ErrorMessage />}
       <MovieGrid movies={movies} onSelect={(movieId) => {}} />
     </div>
   );
