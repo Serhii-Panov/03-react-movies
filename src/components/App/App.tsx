@@ -1,24 +1,25 @@
 import { useState } from "react";
-import css from "/App.module.css";
+import fetchMovies from "../../services/movieService";
+import SearchBar from "../SearchBar/SearchBar";
+import MovieGrid from "../MovieGrid/MovieGrid";
+import { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 
 function App() {
-  const [movies, setMovies] = useState([]); // State for movies
+  const [movies, setMovies] = useState([]);
 
   const handleSearch = (query: string) => {
     const params = {
       params: { query },
       headers: { Authorization: "", Accept: "application/json" },
     };
-    const onSelect = (movieId: number) => {
-      console.log("Selected movie ID:", movieId);
-    };
-    searchMovies(params)
+    fetchMovies(params)
       .then((res) => {
         if (res.data.results.length === 0) {
           toast.error("No movies found for your request");
-          setMovies([]); // Clear movies if none found
+          setMovies([]);
         } else {
-          setMovies(res.data.results); // Set movies state
+          setMovies(res.data.results);
         }
       })
       .catch((err) => {
@@ -31,9 +32,7 @@ function App() {
     <div>
       <Toaster />
       <SearchBar onSubmit={handleSearch} />
-      {movies.length > 0 && ( // Conditionally render MovieGrid
-        <MovieGrid movies={movies} />
-      )}
+      <MovieGrid movies={movies} onSelect={(movieId) => {}} />
     </div>
   );
 }
