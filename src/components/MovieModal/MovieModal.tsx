@@ -2,6 +2,7 @@ import { createPortal } from "react-dom";
 import css from "./MovieModal.module.css";
 import type { Movie } from "../../types/movie";
 import { useEffect } from "react";
+import React from "react";
 interface MovieModalProps {
   movie: Movie | undefined;
   onClose: () => null;
@@ -28,7 +29,8 @@ export default function MovieModal(props: MovieModalProps) {
   }, [props.onClose]);
 
   if (props.movie == undefined) {
-    return console.log("Movie is undefined");
+    console.log("Movie is undefined");
+    return null;
   } else
     return createPortal(
       <div
