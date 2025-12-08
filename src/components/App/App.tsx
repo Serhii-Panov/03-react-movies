@@ -8,12 +8,15 @@ import Loader from "../Loader/Loader";
 import ErrorMessage from "../ErrorMessage/ErrorMessage";
 import MovieModal from "../MovieModal/MovieModal";
 import type { Movie } from "../../types/movie";
+
 function App() {
-  const [movies, setMovies] = useState([]);
+  const [movies, setMovies] = useState<Movie[]>([]);
   const [isloading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedMovie, setSelectedMovie] = useState<Movie>();
+  const [selectedMovie, setSelectedMovie] = useState<Movie | undefined>(
+    undefined
+  );
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
   const handleSearch = (query: string) => {
@@ -40,19 +43,25 @@ function App() {
       });
   };
 
+  const handleMovieSelectById = (id: number) => {
+    // Находим ПОЛНЫЙ объект фильма из нашего текущего массива movies
+    const movie = movies.find((m) => m.id === id);
+
+    if (movie) {
+      setSelectedMovie(movie);
+      setIsModalOpen(true); // Открываем модальное окно
+    } else {
+      console.error("Фильм с таким ID не найден:", id);
+      toast.error("Не удалось найти данные фильма.");
+    }
+  };
   return (
     <div>
       <Toaster />
       <SearchBar onSubmit={handleSearch} />
       {isloading && <Loader />}
       {isError && <ErrorMessage />}
-      <MovieGrid
-        movies={movies}
-        onSelect={() => {
-          setSelectedMovie(selectedMovie);
-          openModal;
-        }}
-      />
+      <MovieGrid movies={movies} onSelect={handleMovieSelectById} />
       {isModalOpen && <MovieModal movie={selectedMovie} onClose={closeModal} />}
     </div>
   );

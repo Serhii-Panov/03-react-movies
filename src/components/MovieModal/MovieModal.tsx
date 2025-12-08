@@ -1,7 +1,8 @@
 import { createPortal } from "react-dom";
 import css from "./MovieModal.module.css";
+import type { Movie } from "../../types/movie";
 interface MovieModalProps {
-  movie: string;
+  movie: Movie;
   onClose: () => void;
 }
 export default function MovieModal(props: MovieModalProps) {
@@ -16,18 +17,18 @@ export default function MovieModal(props: MovieModalProps) {
           &times;
         </button>
         <img
-          src="https://image.tmdb.org/t/p/original/backdrop_path"
-          alt="movie_title"
+          src={`https://image.tmdb.org/t/p/w500/${props.movie.poster_path}`}
+          alt={props.movie.title}
           className={css.image}
         />
         <div className={css.content}>
-          <h2>movie_title</h2>
-          <p>movie_overview</p>
+          <h2>{props.movie.title}</h2>
+          <p>{props.movie.overview}</p>
           <p>
-            <strong>Release Date:</strong> movie_release_date
+            <strong>Release Date:</strong> {props.movie.release_date}
           </p>
           <p>
-            <strong>Rating:</strong> movie_vote_average/10
+            <strong>Rating:</strong> {props.movie.vote_average} / 10
           </p>
         </div>
       </div>
