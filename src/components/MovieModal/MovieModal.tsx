@@ -5,7 +5,7 @@ import { useEffect } from "react";
 import React from "react";
 interface MovieModalProps {
   movie: Movie | undefined;
-  onClose: () => null;
+  onClose: () => void;
 }
 export default function MovieModal(props: MovieModalProps) {
   const handleBackdropClick = (event: React.MouseEvent<HTMLDivElement>) => {
