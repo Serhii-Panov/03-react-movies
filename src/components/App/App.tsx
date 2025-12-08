@@ -18,7 +18,10 @@ function App() {
     undefined
   );
   const openModal = () => setIsModalOpen(true);
-  const closeModal = () => setIsModalOpen(false);
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setSelectedMovie(undefined);
+  };
   const handleSearch = (query: string) => {
     const params = {
       params: { query },
@@ -34,6 +37,7 @@ function App() {
         } else {
           setIsLoading(false);
           setMovies(res.data.results);
+          setIsError(false);
         }
       })
       .catch((err) => {
@@ -44,15 +48,14 @@ function App() {
   };
 
   const handleMovieSelectById = (id: number) => {
-    // Находим ПОЛНЫЙ объект фильма из нашего текущего массива movies
     const movie = movies.find((m) => m.id === id);
 
     if (movie) {
       setSelectedMovie(movie);
-      setIsModalOpen(true); // Открываем модальное окно
+      openModal();
     } else {
-      console.error("Фильм с таким ID не найден:", id);
-      toast.error("Не удалось найти данные фильма.");
+      console.error("Error movie with this id not found", id);
+      toast.error("Error: Movie not found");
     }
   };
   return (
