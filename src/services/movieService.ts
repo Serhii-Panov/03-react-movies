@@ -1,5 +1,5 @@
 import axios from "axios";
-import type { Movie } from "../types/Movie";
+import type { Movie } from "../types/movie";
  const API_URL = "https://api.themoviedb.org/3/search/movie"
 
 export default function fetchMovies(query: string) {
