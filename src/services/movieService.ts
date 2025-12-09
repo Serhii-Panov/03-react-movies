@@ -1,28 +1,16 @@
 import axios from "axios";
- ;
+import type { Movie } from "../types/Movie";
  const API_URL = "https://api.themoviedb.org/3/search/movie"
-interface searchParams {
-  params: {
-    query: string,
-    page?: number,
-    limit?: number,
-    perPage?: number
-  },
-  headers: {
-    Authorization: string,
-    Accept?: string
-  }
-}
 
-export default function fetchMovies(searchParams: searchParams) {
-  return axios.get(API_URL, {
+export default function fetchMovies(query: string) {
+  const response = axios.get(API_URL, {
     params: {
-      query: searchParams.params.query,
-      page: searchParams.params.page ?? 1,
+      query: query,
     },
     headers: {
       Authorization: `Bearer ${import.meta.env.VITE_TMDB_TOKEN}`,
       Accept: "application/json",
     },
   });
+  return response.then((res) => res.data as { results: Movie[] } );
 }
