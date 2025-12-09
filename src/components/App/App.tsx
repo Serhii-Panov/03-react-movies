@@ -7,7 +7,7 @@ import toast from "react-hot-toast";
 import Loader from "../Loader/Loader";
 import ErrorMessage from "../ErrorMessage/ErrorMessage";
 import MovieModal from "../MovieModal/MovieModal";
-import type { Movie } from "../../types/Movie";
+import type { Movie } from "../../types/movie";
 
 function App() {
   const [movies, setMovies] = useState<Movie[]>([]);

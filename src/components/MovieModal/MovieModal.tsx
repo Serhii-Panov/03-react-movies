@@ -1,6 +1,6 @@
 import { createPortal } from "react-dom";
 import css from "./MovieModal.module.css";
-import type { Movie } from "../../types/Movie";
+import type { Movie } from "../../types/movie";
 import { useEffect } from "react";
 import React from "react";
 interface MovieModalProps {
