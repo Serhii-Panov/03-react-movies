@@ -11,20 +11,21 @@ import type { Movie } from "../../types/movie";
 
 function App() {
   const [movies, setMovies] = useState<Movie[]>([]);
-  const [isloading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
   const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null);
   const closeModal = () => setSelectedMovie(null);
   const handleSearch = (query: string) => {
     setIsLoading(true);
-    const movies = fetchMovies(query);
-    movies
+    fetchMovies(query)
       .then((data) => {
-        setMovies(data.results);
+        if (data.length === 0) {
+          toast.error("No movies found for your request");
+        }
+        setMovies(data);
         setIsError(false);
       })
-      .catch((error) => {
-        console.error("Error fetching movies:", error);
+      .catch(() => {
         setIsError(true);
       })
       .finally(() => {
@@ -43,7 +44,7 @@ function App() {
     <div>
       <Toaster />
       <SearchBar onSubmit={handleSearch} />
-      {isloading && <Loader />}
+      {isLoading && <Loader />}
       {isError && <ErrorMessage />}
       <MovieGrid movies={movies} onSelect={handleMovieSelect} />
       {selectedMovie && (
